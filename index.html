@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terrapin Trading Academy — Forex &amp; Crypto (Separate Tracks)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0e1419;
+    --surface2: #141c24;
+    --border: #1e2d3d;
+    --accent: #00e5a0;
+    --accent2: #f7b731;
+    --accent3: #ff4b6e;
+    --text: #d4e0eb;
+    --muted: #5a7a90;
+    --locked: #1a2535;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 0 40px;
+    background: rgba(8,12,16,0.9);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    min-height: 72px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(0,229,160,0.4);
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--text); }
+
+  .socials {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .social-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all .2s;
+    letter-spacing: 0.5px;
+  }
+  .social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,229,160,0.05);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 70px 40px 50px;
+    text-align: center;
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 100px);
+    letter-spacing: 4px;
+    line-height: 0.95;
+    margin-bottom: 20px;
+  }
+  .hero h1 .line2 { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 30px;
+    line-height: 1.7;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .meta-item span { color: var(--accent2); font-weight: 500; }
+
+  .disclaimer-bar {
+    background: rgba(255,75,110,0.08);
+    border: 1px solid rgba(255,75,110,0.2);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #ff8fa0;
+    max-width: 900px;
+    margin: 30px auto 0;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  /* ── COURSE TRACK SWITCHER ── */
+  .track-switch {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .track-btn {
+    flex: 1 1 140px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    text-align: center;
+  }
+  .track-btn:hover:not(.active) {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .track-btn.active[data-track="forex"] {
+    border-color: var(--accent);
+    background: rgba(0,229,160,0.1);
+    color: var(--accent);
+    box-shadow: 0 0 24px rgba(0,229,160,0.12);
+  }
+  .track-btn.active[data-track="crypto"] {
+    border-color: var(--accent2);
+    background: rgba(247,183,49,0.1);
+    color: var(--accent2);
+    box-shadow: 0 0 24px rgba(247,183,49,0.12);
+  }
+  .track-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .lesson .lead {
+    font-size: 15px;
+    color: #b8cad8;
+    line-height: 1.75;
+    margin-bottom: 18px;
+    padding: 14px 18px;
+    background: rgba(0,229,160,0.04);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .app {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 40px 60px;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR / MODULE LIST ── */
+  .sidebar {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 24px;
+  }
+
+  .sidebar-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mod-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: all .2s;
+    text-align: left;
+    width: 100%;
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+  }
+  .mod-btn.active {
+    background: rgba(0,229,160,0.06);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .mod-btn.completed {
+    color: var(--text);
+    border-color: rgba(0,229,160,0.2);
+    background: rgba(0,229,160,0.03);
+  }
+  .mod-btn.locked {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .mod-btn:not(.locked):not(.active):hover {
+    border-color: var(--border);
+    color: var(--text);
+    background: var(--surface);
+  }
+  .mod-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 30px;
+    text-align: center;
+  }
+  .mod-info { flex: 1; min-width: 0; }
+  .mod-name { font-weight: 700; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mod-week { font-family: 'DM Mono', monospace; font-size: 10px; margin-top: 2px; opacity: 0.7; }
+  .mod-status { font-size: 14px; flex-shrink: 0; }
+
+  /* ── CONTENT PANEL ── */
+  .content {
+    min-height: 600px;
+  }
+
+  .module-view {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeUp .3s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mod-header {
+    padding: 32px 40px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .mod-header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .mod-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .mod-header p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .mod-body { padding: 36px 40px; }
+
+  /* ── LESSON SECTIONS ── */
+  .lesson {
+    margin-bottom: 44px;
+  }
+  .lesson-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .lesson p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .lesson ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .lesson li {
+    font-size: 13px;
+    color: var(--text);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .lesson li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 11px;
+    top: 3px;
+  }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 14px 0 20px;
+  }
+  .data-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--accent);
+    background: rgba(0,229,160,0.04);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-table td:first-child {
+    font-weight: 700;
+    color: var(--accent2);
+    white-space: nowrap;
+    min-width: 130px;
+  }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .callout-green {
+    background: rgba(0,229,160,0.06);
+    border-left: 3px solid var(--accent);
+    color: #a0f0d8;
+  }
+  .callout-yellow {
+    background: rgba(247,183,49,0.06);
+    border-left: 3px solid var(--accent2);
+    color: #f7e0a0;
+  }
+  .callout-red {
+    background: rgba(255,75,110,0.06);
+    border-left: 3px solid var(--accent3);
+    color: #ffb0be;
+  }
+  .callout-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: #0a0f14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #7dcfb0;
+    white-space: pre-wrap;
+    margin: 14px 0;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  /* ── PROCEED TO QUIZ BUTTON ── */
+  .quiz-cta {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .btn-quiz {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: linear-gradient(135deg, var(--accent), #00b87a);
+    color: #001a0e;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .25s;
+    box-shadow: 0 0 40px rgba(0,229,160,0.2);
+  }
+  .btn-quiz:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 60px rgba(0,229,160,0.35);
+  }
+  .quiz-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  /* ── QUIZ PANEL ── */
+  .quiz-view {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeUp .3s ease;
+    box-shadow: 0 0 60px rgba(0,229,160,0.06);
+  }
+  .quiz-header {
+    background: linear-gradient(135deg, rgba(0,229,160,0.1), rgba(0,229,160,0.03));
+    padding: 30px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .quiz-header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .quiz-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+  .quiz-progress-bar {
+    height: 3px;
+    background: var(--border);
+    margin-top: 16px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width .4s ease;
+  }
+  .quiz-body { padding: 36px 40px; }
+
+  .question-block {
+    margin-bottom: 32px;
+  }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    text-align: left;
+    transition: all .15s;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: rgba(0,229,160,0.05);
+    color: var(--accent);
+  }
+  .option-btn.selected { border-color: var(--accent2); background: rgba(247,183,49,0.08); color: var(--accent2); }
+  .option-btn.correct { border-color: var(--accent); background: rgba(0,229,160,0.1); color: var(--accent); }
+  .option-btn.wrong { border-color: var(--accent3); background: rgba(255,75,110,0.08); color: var(--accent3); }
+  .option-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--border);
+    padding: 2px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .text-answer {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .text-answer:focus { border-color: var(--accent); }
+
+  .answer-feedback {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    display: none;
+    line-height: 1.5;
+  }
+  .feedback-correct { background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.2); color: #7de8c8; display: block; }
+  .feedback-wrong { background: rgba(255,75,110,0.08); border: 1px solid rgba(255,75,110,0.2); color: #ffaab8; display: block; }
+  .feedback-open { background: rgba(247,183,49,0.08); border: 1px solid rgba(247,183,49,0.2); color: #f7d87a; display: block; }
+
+  .check-btn {
+    margin-top: 10px;
+    padding: 8px 20px;
+    background: rgba(247,183,49,0.1);
+    border: 1px solid var(--accent2);
+    color: var(--accent2);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .check-btn:hover { background: rgba(247,183,49,0.18); }
+
+  .quiz-submit-area {
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-submit {
+    padding: 14px 32px;
+    background: linear-gradient(135deg, var(--accent), #00b87a);
+    color: #001a0e;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 24px rgba(0,229,160,0.3); }
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ── RESULTS ── */
+  .results-view {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 50px 40px;
+    text-align: center;
+    animation: fadeUp .3s ease;
+  }
+  .results-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 90px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .score-pass { color: var(--accent); text-shadow: 0 0 40px rgba(0,229,160,0.4); }
+  .score-fail { color: var(--accent3); text-shadow: 0 0 40px rgba(255,75,110,0.4); }
+  .results-msg { font-size: 14px; color: var(--muted); max-width: 480px; margin: 0 auto 30px; line-height: 1.7; }
+  .btn-next {
+    padding: 14px 36px;
+    background: linear-gradient(135deg, var(--accent), #00b87a);
+    color: #001a0e;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .25s;
+    margin: 8px;
+  }
+  .btn-next:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,229,160,0.3); }
+  .btn-retry {
+    padding: 14px 36px;
+    background: transparent;
+    border: 1px solid var(--accent3);
+    color: var(--accent3);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .25s;
+    margin: 8px;
+  }
+  .btn-retry:hover { background: rgba(255,75,110,0.08); }
+
+  /* ── COMPLETION ── */
+  .completion-view {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 60px 40px;
+    text-align: center;
+    animation: fadeUp .4s ease;
+    box-shadow: 0 0 80px rgba(0,229,160,0.08);
+  }
+  .completion-icon { font-size: 70px; margin-bottom: 20px; }
+  .completion-view h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .completion-view p { color: var(--muted); font-size: 15px; max-width: 520px; margin: 0 auto 30px; line-height: 1.7; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; padding: 20px; }
+    .sidebar { position: static; flex-direction: row; flex-wrap: wrap; padding-right: 0; }
+    .mod-btn { width: auto; flex: 1 1 140px; min-width: 130px; }
+    .mod-name { font-size: 11px; }
+    header { padding: 0 20px; }
+    .hero { padding: 40px 20px 30px; }
+    .mod-header, .mod-body, .quiz-body { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">TERRAPIN<span> TRADING</span></div>
+  <div class="socials">
+    <a class="social-link" href="https://www.facebook.com/IAmTerrapin" target="_blank">FACEBOOK</a>
+    <a class="social-link" href="https://www.tiktok.com/@i_am_terrapin?_r=1&_t=ZS-94xPu3grHqT" target="_blank">TIKTOK</a>
+    <a class="social-link" href="https://x.com/I_Am_Terrapin" target="_blank">TWITTER/X</a>
+    <a class="social-link" href="https://t.me/i_am_terrapin" target="_blank">TELEGRAM</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">// COMPLETE BEGINNER COURSE</div>
+  <h1>TWO TRACKS.<br><span class="line2">ONE DISCIPLINE.</span></h1>
+  <p class="hero-sub">Pick <strong>Forex</strong> or <strong>Crypto</strong> in the sidebar — each track is its own full beginner path (8 modules). Lessons use <strong>plain-language “simple meaning”</strong> boxes next to formal definitions so students aren’t lost in jargon.</p>
+  <div class="hero-meta">
+    <div class="meta-item">TRACKS <span>2 SEPARATE</span></div>
+    <div class="meta-item">MODULES / TRACK <span>8</span></div>
+    <div class="meta-item">DURATION <span>10–12 WEEKS</span></div>
+    <div class="meta-item">PASS SCORE <span>80%</span></div>
+  </div>
+  <div class="disclaimer-bar">
+    ⚠ DISCLAIMER: Trading cryptocurrencies and forex involves substantial risk of loss and is not suitable for every investor. This course is for educational purposes only and does not constitute financial advice or investment recommendations. Never trade with money you cannot afford to lose.
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-title">// Choose your track</div>
+    <div class="track-switch">
+      <button type="button" class="track-btn active" data-track="forex" id="track-forex" onclick="setActiveTrack('forex')">Forex course</button>
+      <button type="button" class="track-btn" data-track="crypto" id="track-crypto" onclick="setActiveTrack('crypto')">Crypto course</button>
+    </div>
+    <p class="track-hint">Progress is saved separately per track. Switch anytime — your place in each path is remembered in this session.</p>
+    <div class="sidebar-title">// Modules (active track)</div>
+    <div id="module-nav"></div>
+  </aside>
+  <main class="content" id="content-area"></main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// COURSE DATA
+const modulesByTrack = {
+  forex: [
+  {
+    id: 0,
+    title: "Forex Market Foundations",
+    week: "Week 1",
+    emoji: "🌐",
+    intro: "Forex-only track: who trades currencies, how prices are quoted, and every starter term explained in plain English beside the textbook definition.",
+    lessons: [
+      {
+        title: "1.1 — What Is Forex? (Big Picture)",
+        content: `<p class="lead"><strong>In plain English:</strong> Forex is people and companies swapping one country's money for another's, almost nonstop. The <strong>price</strong> is always a <em>pair</em> (e.g. EUR/USD) because you buy one currency <em>using</em> the other.</p>
+<p><strong>Technical note:</strong> Forex is a global, mostly over-the-counter (OTC) market. Roughly $9 trillion/day trades hands (BIS triennial survey). It runs <strong>24h on weekdays</strong> as sessions hand off: Sydney → Tokyo → London → New York.</p>
+<p><strong>Who trades?</strong> Central banks, banks, funds, companies hedging invoices, and retail traders via brokers.</p>
+<table class="data-table"><thead><tr><th>Term</th><th>Plain English</th><th>Formal definition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Currency pair</td><td>Two monies together so you see <em>what you buy</em> and <em>what you pay with</em>.</td><td>Quote of one currency versus another.</td><td>EUR/USD 1.0850 ⇒ 1 euro costs 1.0850 USD.</td></tr>
+<tr><td>Base / quote</td><td>First name = item counted; second = the cash register paying for it.</td><td>Base = 1 unit priced in quote currency.</td><td>GBP/USD: price of one pound in dollars.</td></tr>
+<tr><td>Exchange rate</td><td>How expensive the base is in quote terms.</td><td>Relative price between two currencies.</td><td>If EUR/USD rises, euros got pricier in dollars.</td></tr>
+<tr><td>Lot</td><td>Standard <em>package size</em> so volume is comparable.</td><td>Broker contract size unit.</td><td>Micro 1,000 base units; standard 100,000.</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "1.2 — Pips, Spread, Bid/Ask",
+        content: `<p class="lead"><strong>In plain English:</strong> A <strong>pip</strong> is the usual tiny step on many pairs. The <strong>spread</strong> is the gap between the price sellers demand and buyers pay—you effectively buy high and sell low by one spread.</p>
+<table class="data-table"><thead><tr><th>Term</th><th>Plain English</th><th>Formal definition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Pip</td><td>“One small tick” beginners watch on P&amp;L.</td><td>Often 0.0001 on majors; JPY pairs often use 0.01.</td><td>1.0850 → 1.0851 on EUR/USD = +1 pip.</td></tr>
+<tr><td>Pip (letters)</td><td>Slang: <strong>P</strong>rice <strong>I</strong>nterest <strong>P</strong>oint—memorize the idea, not trivia.</td><td>Standard minimum quote increment.</td><td>—</td></tr>
+<tr><td>Bid / ask</td><td>Bid = where you can sell now; ask = where you can buy now.</td><td>Best opposite-side quotes.</td><td>Bid 1.0850 / Ask 1.0852.</td></tr>
+<tr><td>Spread</td><td>Your first hurdle: price must move this far to “break even.”</td><td>Ask minus bid.</td><td>2 pips spread ⇒ need +2 pips to cover entry.</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">Takeaway</div>Profit and loss come from movement <em>after</em> spread and fees. Tight spreads + right sizing beat fancy indicators early on.</div>`
+      },
+      {
+        title: "1.3 — Leverage, Margin & Session Clock",
+        content: `<p class="lead"><strong>In plain English:</strong> <strong>Leverage</strong> = borrow screen size; <strong>margin</strong> = money held as a deposit; <strong>long</strong> = want pair up; <strong>short</strong> = want pair down (base weaker vs quote).</p>
+<table class="data-table"><thead><tr><th>Term</th><th>Plain English</th><th>Forex meaning</th></tr></thead><tbody>
+<tr><td>Leverage</td><td>Small cash steers a big position—<strong>both wins and losses scale</strong>.</td><td>Ratio (region rules vary), e.g. $1 margin may back $30 notional.</td></tr>
+<tr><td>Margin</td><td>Locked collateral so the broker is paid if you are wrong.</td><td>Required equity for open leveraged trades.</td></tr>
+<tr><td>Volatility</td><td>How “bumpy” the chart feels hour to hour.</td><td>Size of price swings.</td></tr>
+<tr><td>Liquidity</td><td>Easy fills without shoving price.</td><td>Depth at best bid/ask; best on major pairs.</td></tr>
+<tr><td>Slippage</td><td>You clicked one price, filled worse in a spike.</td><td>Actual fill vs expected during volatility.</td></tr>
+</tbody></table>
+<div class="code-block">🌍 FOREX SESSION TIMES (UTC)
+Sydney:   22:00 – 07:00 UTC  (often quieter)
+Tokyo:    00:00 – 09:00 UTC  (JPY pairs busier)
+London:   07:00 – 16:00 UTC  (often deepest liquidity)
+New York: 12:00 – 21:00 UTC  (news + USD flow)
+
+🔄 PEAK OVERLAP: London + New York 12:00 – 16:00 UTC
+
+✅ Beginners: study charts in London or London/NY overlap first.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'In plain English, what is a currency pair?', opts: ['A government bond', 'Two currencies quoted together so you know what you buy and what you pay with', 'One country’s interest rate only', 'A crypto hardware wallet'], answer: 1 },
+      { type: 'mc', q: 'For EUR/USD, a “pip” is best described as:', opts: ['Always exactly one cent', 'A very small standard step in the exchange rate (usually 0.0001)', 'The broker’s monthly subscription', 'The maximum daily loss allowed'], answer: 1 },
+      { type: 'tf', q: 'True or False: Forex is closed every minute of Saturday and Sunday worldwide.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'If EUR/USD moves from 1.0850 to 1.0865, how many pips (standard pip)?', opts: ['5 pips', '10 pips', '15 pips', '20 pips'], answer: 2 },
+      { type: 'open', q: 'Explain “spread” in one sentence to a friend who does not trade.', hint: 'Use bid vs ask or buy higher / sell lower.' }
+    ]
+  },
+  {
+    id: 1,
+    title: "Platform Setup & Order Types",
+    week: "Week 2",
+    emoji: "🔐",
+    intro: "Forex brokers only in this module: how to pick a regulated firm, secure your login, and use orders safely.",
+    lessons: [
+      {
+        title: "2.1 — Choosing a Regulated Forex Broker",
+        content: `<p class="lead"><strong>Plain English:</strong> Your broker is the counterparty that routes your euros, pounds, or yen trades. If it is sketchy, <em>no chart pattern saves you</em>.</p>
+<p>Your platform is your gateway to the markets — and the biggest failure point for beginners who skip due diligence. Verify regulation <strong>before</strong> wiring money.</p>
+<div class="callout callout-green"><div class="callout-title">✅ Forex broker checklist</div>
+• <strong>Regulator you can verify</strong> on the official registry: FCA (UK), ASIC (AU), CySEC (EU), NFA/CFTC (US), etc.<br>
+• <strong>Negative balance protection</strong> for retail traders where required (you cannot owe the broker after a gap).<br>
+• Published <strong>spreads, commissions, swaps</strong> (overnight holding cost) in plain language.<br>
+• Live support + order-fill transparency; avoid “bonus” traps that lock withdrawals.</div>
+<div class="callout callout-yellow"><div class="callout-title">Crypto is another track</div>If you want centralized exchanges and on-chain custody, complete the <strong>Crypto course</strong> sidebar—this module stays laser-focused on fiat forex brokers.</div>
+<div class="callout callout-red"><div class="callout-title">🚩 Red flags</div>
+• Unregulated offshore brokers promising "guaranteed returns"<br>
+• No KYC process, bonus offers that lock your funds<br>
+• 1:500+ leverage promises with no risk disclosures</div>`
+      },
+      {
+        title: "2.2 — Account Setup & Security (Broker)",
+        content: `<p class="lead"><strong>Plain English:</strong> Brokers must know your identity (KYC) so money-laundering rules are satisfied—annoying, but normal.</p>
+<p><strong>Standard onboarding:</strong></p>
+<ul>
+<li>Register with email, phone, honest personal details.</li>
+<li>KYC/AML: government ID + proof of address.</li>
+<li>Two-factor authentication via authenticator app—<strong>prefer app over SMS</strong> (SIM-swap risk).</li>
+<li>Unique password + password manager.</li>
+<li>Fund from your own bank/card; names should match.</li>
+<li>Turn on withdrawal confirmations / anti-phishing codes if offered.</li>
+</ul>
+<div class="callout callout-yellow"><div class="callout-title">📱 Mobile safety</div>Official app only · biometrics optional · skip public Wi-Fi for money moves · update often · no distracted trading.</div>`
+      },
+      {
+        title: "2.3 — Order Types Deep Dive",
+        content: `<p class="lead"><strong>Plain English:</strong> Orders are instructions: get in now, only at my price, or cut loss if the market crosses here.</p>
+<table class="data-table"><thead><tr><th>Order Type</th><th>Plain English</th><th>Formal idea</th><th>Gotcha</th></tr></thead><tbody>
+<tr><td>Market</td><td>Fill me ASAP.</td><td>Immediate execution at best price.</td><td>Slippage on news spikes.</td></tr>
+<tr><td>Limit</td><td>Only if price comes to me.</td><td>Execute at your price or better.</td><td>Might never fill.</td></tr>
+<tr><td>Stop (market)</td><td>Emergency exit near this level.</td><td>Triggers market order when stop trades.</td><td>Gaps can skip your stop.</td></tr>
+<tr><td>Stop-limit</td><td>Exit with a cap on exit price after trigger.</td><td>Stop then limit.</td><td>Can miss fill if price blows through.</td></tr>
+<tr><td>Trailing stop</td><td>Stop that follows price to lock gains.</td><td>Dynamic stop distance.</td><td>Chop can stop you out early.</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">🔐 Broker security</div>No passwords or 2FA codes by chat. Bookmark the broker portal. Phishing emails fake “margin call” panic—type the URL yourself.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which regulatory body is considered top-tier for forex brokers in the UK?', opts: ['SEC', 'FCA', 'CySEC', 'ASIC'], answer: 1 },
+      { type: 'tf', q: 'True or False: SMS-based two-factor authentication is the most secure option available.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'Which order type guarantees execution but NOT the price?', opts: ['Limit Order', 'Stop-Limit', 'Stop-Market Order', 'Trailing Stop'], answer: 2 },
+      { type: 'mc', q: 'What is the PRIMARY purpose of a stop-loss order?', opts: ['To maximize profits', 'To define and limit maximum acceptable loss', 'To guarantee a specific entry price', 'To avoid paying overnight fees'], answer: 1 },
+      { type: 'open', q: 'Name three red flags of a potentially fraudulent trading platform.', hint: 'Think: regulation, profit promises, and deposit pressure.' }
+    ]
+  },
+  {
+    id: 2,
+    title: "Technical Analysis Foundations",
+    week: "Weeks 3–4",
+    emoji: "📈",
+    intro: "Learn to read price charts, identify support and resistance, use Fibonacci retracements, and apply essential indicators.",
+    lessons: [
+      {
+        title: "3.1 — Reading Price Charts",
+        content: `<p>Every candle on a chart tells a story. Each <strong>candlestick</strong> shows four data points: Open, High, Low, Close (OHLC). Green/white candles close higher than they opened (bullish); red/black candles close lower (bearish). Wicks (shadows) show price rejection at extremes.</p>
+<table class="data-table"><thead><tr><th>Timeframe</th><th>Best For</th><th>Beginner Recommendation</th></tr></thead><tbody>
+<tr><td>M1–M15</td><td>Scalping</td><td>❌ Avoid — too much noise</td></tr>
+<tr><td>H1–H4</td><td>Day trading</td><td>⚠ Use after mastering daily</td></tr>
+<tr><td>Daily (D1)</td><td>Swing trading</td><td>✅ START HERE — clearer signals</td></tr>
+<tr><td>Weekly (W1)</td><td>Position trading</td><td>✅ Use to confirm trend direction</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "3.2 — Support, Resistance & Market Structure",
+        content: `<table class="data-table"><thead><tr><th>Type</th><th>Description</th><th>Beginner Application</th></tr></thead><tbody>
+<tr><td>Horizontal S/R</td><td>Fixed price levels from prior swing highs/lows</td><td>✅ START HERE — most reliable</td></tr>
+<tr><td>Trendline</td><td>Slanted lines connecting swing points</td><td>Draw only in clear trends</td></tr>
+<tr><td>Dynamic (EMAs)</td><td>Moving levels like 21/50 EMA</td><td>Combine with horizontal S/R</td></tr>
+<tr><td>Psychological</td><td>Round numbers attracting attention</td><td>Place stops just beyond these</td></tr>
+<tr><td>Fibonacci</td><td>Math-based retracement zones</td><td>Focus on 38.2% & 61.8%</td></tr>
+<tr><td>Role-Reversal</td><td>Old support becomes new resistance</td><td>"Old resistance = new support" rule</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">📐 Market Structure</div>
+<strong>Uptrend</strong>: Series of Higher Highs (HH) and Higher Lows (HL).<br>
+<strong>Downtrend</strong>: Series of Lower Highs (LH) and Lower Lows (LL).<br>
+A <strong>Break of Structure (BOS)</strong> confirms trend continuation. A <strong>Change of Character (CHoCH)</strong> signals potential reversal. Trade with the structure, not against it.</div>`
+      },
+      {
+        title: "3.3 — Fibonacci Retracements & Indicators",
+        content: `<div class="code-block">UPTREND PULLBACK SETUP (Fibonacci):
+1. Confirm uptrend on Daily (higher highs + higher lows)
+2. Wait for pullback to 38.2% or 61.8% Fib zone + horizontal support
+3. Look for bullish confirmation (candlestick pattern, RSI > 30, volume increase)
+4. Enter long; stop below 76.4% Fib or recent swing low
+5. Target previous swing high OR 1:2 minimum risk-reward</div>
+<table class="data-table"><thead><tr><th>Indicator</th><th>Purpose</th><th>Settings</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Moving Averages</td><td>Trend direction, dynamic S/R</td><td>50 EMA + 200 EMA on Daily</td><td>Price above = uptrend bias; below = downtrend</td></tr>
+<tr><td>RSI</td><td>Momentum, overbought/oversold</td><td>14-period, 30/70 levels</td><td>&gt;70 = potentially overbought; &lt;30 = oversold</td></tr>
+<tr><td>MACD</td><td>Momentum shifts</td><td>Default (12,26,9)</td><td>Signal crossovers + histogram direction</td></tr>
+<tr><td>Volume</td><td>Confirm move strength</td><td>Raw volume or MA</td><td>Rising volume on breakouts = stronger conviction</td></tr>
+</tbody></table>
+<div class="callout callout-yellow"><div class="callout-title">⚠ Golden Rule</div>Use indicators to CONFIRM price action, not as standalone signal generators. More indicators ≠ better signals.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which support/resistance type is MOST reliable for beginners?', opts: ['Fibonacci', 'Horizontal S/R', 'Psychological levels', 'Trendline'], answer: 1 },
+      { type: 'tf', q: 'True or False: Fibonacci levels guarantee price reversal at exact prices.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'In an uptrend, where do you draw Fibonacci retracement FROM and TO?', opts: ['High to Low', 'Low to High', 'Left to Right only', 'Right to Left only'], answer: 1 },
+      { type: 'mc', q: 'What does an RSI reading above 70 typically suggest?', opts: ['Strong buy signal', 'Oversold condition — time to buy', 'Asset may be overbought — use caution on longs', 'Guaranteed reversal'], answer: 2 },
+      { type: 'open', q: 'Price breaks above horizontal resistance at $50, then pulls back to $50. What role does $50 likely play now? Why?', hint: 'Think about the "role-reversal" principle.' }
+    ]
+  },
+  {
+    id: 3,
+    title: "Risk Management",
+    week: "Week 5",
+    emoji: "🛡",
+    intro: "The most critical module in this course. Learn position sizing, risk-reward ratios, leverage awareness, and correlation — the pillars of trading survival.",
+    lessons: [
+      {
+        title: "4.1 — The Golden Rules of Risk",
+        content: `<div class="callout callout-yellow"><div class="callout-title">🔑 Professional Mindset</div>"Amateurs focus on profits. Professionals focus on risk." Master risk first — profits follow discipline.</div>
+<ul>
+<li><strong>Risk per Trade:</strong> Never risk more than 1–2% of account balance on a single trade</li>
+<li><strong>Stop-Loss Always:</strong> Every trade must have a predefined stop-loss BEFORE entry</li>
+<li><strong>Risk-Reward Ratio:</strong> Aim for minimum 1:2 (potential profit ≥ 2× potential loss)</li>
+<li><strong>Position Sizing:</strong> Calculate based on stop distance — NEVER by emotion or gut feel</li>
+</ul>`
+      },
+      {
+        title: "4.2 — Position Sizing & Leverage",
+        content: `<div class="code-block">POSITION SIZING FORMULA:
+Position Size = (Account Risk $) ÷ (Stop Loss distance × Pip/Unit Value)
+
+FOREX EXAMPLE:
+Account: $1,000 | Risk: 1% = $10
+Entry: EUR/USD 1.0850 | Stop: 1.0830 (20 pips)
+Pip Value (micro lot): $0.10
+Position Size: $10 ÷ (20 × $0.10) = 5 MICRO LOTS ✓
+
+CRYPTO EXAMPLE:
+Account: $1,000 | Risk: 1% = $10
+Entry: BTC $60,000 | Stop: $58,800 ($1,200 risk per BTC)
+Position Size: $10 ÷ $1,200 = 0.0083 BTC ✓</div>
+<table class="data-table"><thead><tr><th>Leverage</th><th>Effect on $1,000 Account</th><th>Beginner Recommendation</th></tr></thead><tbody>
+<tr><td>1:1</td><td>Controls $1,000</td><td>✅ SAFEST — Start here</td></tr>
+<tr><td>1:10</td><td>Controls $10,000</td><td>⚠ Use after 2+ months demo success</td></tr>
+<tr><td>1:50+</td><td>Controls $50,000+</td><td>❌ AVOID — Liquidation risk extreme</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "4.3 — Correlation & Portfolio Management",
+        content: `<table class="data-table"><thead><tr><th>Concept</th><th>Explanation</th><th>Beginner Action</th></tr></thead><tbody>
+<tr><td>USD Strength</td><td>USD↑ often means EUR/USD↓ AND BTC↓</td><td>Avoid multiple trades betting against USD simultaneously</td></tr>
+<tr><td>Risk-On/Off</td><td>Risk-off = AUD/JPY↓ AND altcoins↓</td><td>Don't assume crypto and forex are independent</td></tr>
+<tr><td>BTC Dominance</td><td>BTC dominance↑ often = altcoins↓</td><td>Monitor BTC trend before trading altcoins</td></tr>
+<tr><td>Practical Rule</td><td>Don't concentrate all risk one direction</td><td>Max 2–3 trades with similar directional bias</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">📋 Portfolio Rules</div>
+Max 3–5 open trades for beginners · Never risk &gt;20% of capital in one asset · Stop trading if you lose 3–5% of account in one day · Weekly review: adjust plan based on data, not emotion</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'What is the MAXIMUM recommended risk per trade for beginners?', opts: ['0.5%', '1–2%', '5%', '10%'], answer: 1 },
+      { type: 'tf', q: 'True or False: It is acceptable to move your stop-loss further away after entry if price moves against you.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'If your account is $2,000 and you risk 1% per trade, what is your maximum loss per trade?', opts: ['$10', '$20', '$50', '$200'], answer: 1 },
+      { type: 'mc', q: 'Why is correlation awareness important in trading?', opts: ['To find more trades faster', 'To avoid unintentionally concentrating risk across trades that move together', 'To increase leverage safely', 'To predict exact market tops and bottoms'], answer: 1 },
+      { type: 'open', q: 'You have 3 open trades, all betting on USD weakness. What hidden risk are you carrying?', hint: 'Think about what happens if USD suddenly strengthens.' }
+    ]
+  },
+  {
+    id: 4,
+    title: "Psychology & Trader Types",
+    week: "Week 6",
+    emoji: "🧠",
+    intro: "Discover your trader type, learn to recognize the psychological traps that destroy accounts, and build a repeatable, disciplined routine.",
+    lessons: [
+      {
+        title: "5.1 — Know Your Trader Type",
+        content: `<table class="data-table"><thead><tr><th>Type</th><th>Holding Period</th><th>Time Needed</th><th>Best For</th><th>Key Risk</th></tr></thead><tbody>
+<tr><td>Scalper</td><td>Seconds–minutes</td><td>Very High</td><td>Fast decision-makers</td><td>High stress, burnout</td></tr>
+<tr><td>Day Trader</td><td>Minutes–hours</td><td>High</td><td>No overnight exposure</td><td>Fatigue, missing moves</td></tr>
+<tr><td>Swing Trader</td><td>Days–weeks</td><td>Medium (1–2x/day checks)</td><td>Full-time jobs</td><td>Overnight gap risk</td></tr>
+<tr><td>Position Trader</td><td>Weeks–months</td><td>Low (weekly review)</td><td>Long-term thinkers</td><td>Large drawdowns</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">✅ Beginner Recommendation</div>Most beginners succeed starting with <strong>swing trading on demo</strong>. Check charts 1–2× per day, hold positions days to weeks, and avoid the stress of constant screen-watching.</div>`
+      },
+      {
+        title: "5.2 — Common Beginner Mistakes",
+        content: `<table class="data-table"><thead><tr><th>Mistake</th><th>Why Dangerous</th><th>Solution</th></tr></thead><tbody>
+<tr><td>No written trading plan</td><td>Emotional decisions → inconsistent results</td><td>Write rules BEFORE trading</td></tr>
+<tr><td>Overtrading</td><td>Increases fees, fatigue, and impulsive errors</td><td>Set daily/weekly trade limits</td></tr>
+<tr><td>Revenge trading</td><td>Chasing losses compounds errors exponentially</td><td>24-hour break after 2 losses; review journal</td></tr>
+<tr><td>Ignoring stops</td><td>Small losses become catastrophic</td><td>Set stops pre-trade; NEVER move wider</td></tr>
+<tr><td>FOMO buying / Panic selling</td><td>Entering peaks, selling lows</td><td>Wait for YOUR setup; use checklists</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "5.3 — Building a Repeatable Routine",
+        content: `<div class="callout callout-yellow"><div class="callout-title">📋 Pre-Trade Checklist (Non-Negotiable)</div>
+Market context: Trending or ranging? (Check Daily first) · Setup matches ALL written plan criteria · Position size calculated at 1–2% risk · Stop-loss at logical technical level · Take-profit set for minimum 1:2 R/R · Emotionally calm and focused? (If no, SKIP) · No high-impact news within 4 hours · Correlation check: Not overexposed to one direction?</div>
+<div class="code-block">POST-TRADE JOURNAL TEMPLATE:
+Date | Asset | Timeframe | Setup Type | Entry Reason | Entry Price | 
+Stop Loss | Take Profit | Position Size | Risk $ | Outcome | 
+Win/Loss | R-Multiple | What Went Well | What to Improve | 
+Emotion (1-10) | Notes</div>
+<div class="callout callout-green"><div class="callout-title">🧘 Emotional Discipline Tools</div>
+<strong>24-Hour Rule:</strong> After 2 consecutive losses, stop for 24 hours. Review journal before resuming.<br>
+<strong>Mindfulness Pause:</strong> Before clicking buy/sell: take 3 deep breaths. Ask: "Is this my plan, or my emotion?"</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which trader type is often BEST for beginners who have full-time jobs?', opts: ['Scalper', 'Day Trader', 'Swing Trader', 'High-Frequency Trader'], answer: 2 },
+      { type: 'tf', q: 'True or False: It is acceptable to skip your pre-trade checklist if you feel highly confident about a trade.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What should you do after 2 consecutive losing trades?', opts: ['Increase position size to recover faster', 'Take a 24-hour break and review your journal', 'Switch to a completely new strategy immediately', 'Trade more frequently to find a winner'], answer: 1 },
+      { type: 'mc', q: 'What is the primary benefit of tracking R-multiples in your trading journal?', opts: ['It shows your total dollar profit', 'It evaluates strategy performance independent of account size', 'It predicts future trade outcomes', 'It calculates leverage automatically'], answer: 1 },
+      { type: 'open', q: 'You feel anxious holding a trade overnight. Name two practical solutions to address this.', hint: 'Think about position size and trader style.' }
+    ]
+  },
+  {
+    id: 5,
+    title: "Fundamental Analysis",
+    week: "Week 7",
+    emoji: "📰",
+    intro: "Understand what moves markets beyond price charts — central banks, economic data, crypto catalysts, and how to read an economic calendar.",
+    lessons: [
+      {
+        title: "6.1 — Forex Fundamental Drivers",
+        content: `<p>Technical analysis shows <em>where</em> price might react. Fundamental analysis explains <em>why</em> it moves. Ignoring fundamentals is like driving with only a rearview mirror.</p>
+<table class="data-table"><thead><tr><th>Catalyst</th><th>Impact on Currency</th><th>Beginner Resource</th></tr></thead><tbody>
+<tr><td>Central Bank Rate Decisions</td><td>Higher rates → currency strength</td><td>ForexFactory calendar; central bank websites</td></tr>
+<tr><td>Economic Data (GDP, CPI, NFP)</td><td>Strong data → currency strength</td><td>Focus on "High Impact" events only</td></tr>
+<tr><td>Geopolitical Events</td><td>Risk-off → USD/JPY/CHF strength</td><td>Reuters, Bloomberg; avoid social media rumors</td></tr>
+<tr><td>Market Sentiment</td><td>Risk-on = growth currencies; risk-off = safe havens</td><td>Learn to identify "risk-off" days</td></tr>
+</tbody></table>
+<div class="callout callout-red"><div class="callout-title">⚠ Beginner Rule</div>Do NOT trade high-impact news events until 3+ months of consistent demo experience. The volatility and slippage can blow through stops instantly.</div>`
+      },
+      {
+        title: "6.2 — Crypto Fundamental Drivers",
+        content: `<table class="data-table"><thead><tr><th>Catalyst</th><th>Impact</th><th>Resource</th></tr></thead><tbody>
+<tr><td>Tokenomics</td><td>Supply schedule, utility, inflation affect demand</td><td>CoinGecko; project whitepapers</td></tr>
+<tr><td>Protocol Upgrades/Hard Forks</td><td>Increase utility or cause chain splits</td><td>Official project channels only</td></tr>
+<tr><td>Regulatory News</td><td>Positive clarity → adoption; bans → sell-offs</td><td>CoinDesk, The Block</td></tr>
+<tr><td>Institutional Adoption</td><td>ETF approvals, treasury allocations → legitimacy</td><td>Verify across multiple sources</td></tr>
+<tr><td>Macro Environment</td><td>Crypto often correlates with tech stocks/Nasdaq</td><td>Monitor S&amp;P 500, VIX, DXY for context</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "6.3 — Reading the Economic Calendar",
+        content: `<div class="code-block">📅 HOW TO READ FOREXFACTORY:
+🔴 Red   = High Impact  → Expect volatility; AVOID trading during release
+🟠 Orange = Medium Impact → Monitor; may cause moderate moves
+🟡 Yellow = Low Impact   → Usually minimal price effect
+
+✅ BEGINNER PROTOCOL:
+1. Filter to show ONLY "Red" events for your target currency
+2. Note release time in YOUR timezone
+3. 30 min BEFORE: Close positions OR reduce size + widen stops
+4. 30 min AFTER: Wait for volatility to settle before new entries</div>
+<div class="callout callout-yellow"><div class="callout-title">📋 Open Trade Before News — Your 3 Options</div>
+<strong>Conservative (Beginner Recommended):</strong> Close the trade entirely. No position = no risk.<br>
+<strong>Moderate:</strong> Move stop-loss to breakeven or wider technical level.<br>
+<strong>Risk-Aware:</strong> Reduce position size while keeping original stop.<br>
+<em>Never widen your stop-loss after the news starts.</em></div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which economic event typically has the HIGHEST impact on forex markets?', opts: ['Minor retail sales data', 'Central bank rate decision', 'Local public holiday', 'Social media trending topic'], answer: 1 },
+      { type: 'tf', q: 'True or False: Beginners should actively trade during high-impact news releases to capture the big moves.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What does "tokenomics" refer to in cryptocurrency?', opts: ['The technology behind the blockchain', 'Economic design of a token including supply, distribution, and utility', 'The current market price of a token', 'The trading fees on a crypto exchange'], answer: 1 },
+      { type: 'mc', q: 'Why might crypto prices correlate with the Nasdaq stock index?', opts: ['Both use the same blockchain technology', 'Both are often treated as "risk-on" assets by institutional investors', 'Crypto exchanges are listed on Nasdaq', 'Nasdaq sets crypto regulatory policy'], answer: 1 },
+      { type: 'open', q: 'You have a bullish technical setup on EUR/USD, but the ECB rate decision is in 2 hours. What is the safest course of action?', hint: 'Think about the news trading rule for beginners.' }
+    ]
+  },
+  {
+    id: 6,
+    title: "Strategy & Demo Practice",
+    week: "Weeks 8–9",
+    emoji: "🎯",
+    intro: "Build your first complete trading strategies, learn proper backtesting methodology, and set up your demo trading protocol.",
+    lessons: [
+      {
+        title: "7.1 — Beginner Strategy A: Trend-Following Pullback",
+        content: `<div class="code-block">STRATEGY A — TREND-FOLLOWING PULLBACK (ALL criteria must be met):
+✅ Daily chart shows clear uptrend (HH/HL) OR downtrend (LH/LL)
+✅ Price pulls back to CONFLUENCE ZONE:
+   • Horizontal support/resistance PLUS
+   • 38.2% or 61.8% Fibonacci retracement PLUS  
+   • Bounce/rejection at 50 EMA (dynamic support)
+✅ Bullish/bearish candlestick CONFIRMATION at zone
+✅ RSI between 30–70 (not extreme)
+✅ No high-impact news within next 4 hours
+
+Entry:  Close of confirmation candle
+Stop:   Below (longs) or above (shorts) confluence zone + 5–10 pip buffer
+Target: Previous swing high/low OR minimum 1:2 risk-reward
+Size:   Calculated using 1% risk formula — always</div>
+<div class="callout callout-red"><div class="callout-title">⚠ Critical Rule</div>If ANY single setup criterion is missing — SKIP the trade. Patience is not weakness. It is your strategy.</div>`
+      },
+      {
+        title: "7.2 — Backtesting Methodology",
+        content: `<p><strong>Backtesting</strong> is testing your strategy on historical price data before risking real money. It reveals whether your strategy has a genuine edge — or just looks good on cherry-picked examples.</p>
+<ul>
+<li>Select your strategy and chart (Daily EUR/USD or BTC/USDT)</li>
+<li>Use platform replay mode or scroll back 3–6 months</li>
+<li>Apply ALL criteria rigorously — mark only valid setups</li>
+<li>Record each trade: Entry, stop, target, outcome, R-multiple</li>
+<li>Test at least 20–30 historical setups for statistical relevance</li>
+</ul>
+<div class="callout callout-yellow"><div class="callout-title">📊 Key Metrics to Track</div>
+<strong>Win Rate:</strong> % of profitable trades (40–60% fine with good R:R)<br>
+<strong>R-Multiple:</strong> Profit/loss as multiple of initial risk. +2R = made 2× your risk.<br>
+<strong>Expectancy:</strong> (Win Rate × Avg Win) − (Loss Rate × Avg Loss). Must be positive to have an edge.</div>`
+      },
+      {
+        title: "7.3 — Demo Trading Protocol",
+        content: `<div class="callout callout-green"><div class="callout-title">✅ Minimum Demo Requirements Before Live</div>
+Minimum 8 weeks (2 months) of demo trading · At least 30 trades following written plan exactly · Positive expectancy over those 30 trades · No risk rule deviations (journal evidence) · At least 3 losing trades documented — and handled correctly</div>
+<div class="code-block">DEMO TRADING AGREEMENT:
+"I, [Your Name], agree to:
+• Trade demo minimum 8 weeks before considering live funds
+• Follow written trading plan on every single trade
+• Risk no more than 1% per trade, even on demo
+• Journal every trade within 1 hour of closing
+• Review journal weekly; adjust only based on data, not emotion
+Signed: __________________ Date: __________"</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'What is the MINIMUM number of historical setups recommended when backtesting a strategy?', opts: ['5 setups', '10 setups', '20–30 setups', '100+ setups always required'], answer: 2 },
+      { type: 'tf', q: 'True or False: If one setup criterion is missing but you really like the trade, you should take it anyway.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What does "positive expectancy" mean in trading?', opts: ['You win more trades than you lose', 'On average, your strategy makes money over many trades', 'You never have losing trades', 'Your win rate is above 70%'], answer: 1 },
+      { type: 'mc', q: 'A backtest shows 45% win rate with an average 1:3 risk-reward. What is the expectancy per trade?', opts: ['−0.10R (negative)', '+0.80R (positive)', '+1.35R (positive)', 'Cannot be calculated'], answer: 1 },
+      { type: 'open', q: 'Why should you treat demo trading with the same discipline and rigor as live trading?', hint: 'Think about habit formation and emotional preparation.' }
+    ]
+  },
+  {
+    id: 7,
+    title: "Scam Awareness & Live Transition",
+    week: "Weeks 10–12",
+    emoji: "🚀",
+    intro: "Protect yourself from scams, prepare for the emotional reality of live trading, build sustainable habits, and create your transition plan.",
+    lessons: [
+      {
+        title: "8.1 — Scam Awareness Deep Dive",
+        content: `<table class="data-table"><thead><tr><th>Scam Type</th><th>Warning Signs</th><th>Protection</th></tr></thead><tbody>
+<tr><td>Guaranteed Profit Signals</td><td>90%+ win rate promises, "secret methods", upfront payment</td><td>Never pay for signals; verify track records independently</td></tr>
+<tr><td>Phishing & Impersonation</td><td>URL misspellings, urgent "verify account" messages, DMs from "support"</td><td>Bookmark official sites; official support NEVER DMs first</td></tr>
+<tr><td>Pump-and-Dump (Crypto)</td><td>Sudden social media hype on low-cap tokens, "buy now before it moons"</td><td>Avoid FOMO; stick to top 20 coins by market cap while learning</td></tr>
+<tr><td>Unregulated Brokers</td><td>1:500 leverage promises, no KYC, "bonus" offers that lock funds</td><td>Verify regulation on official authority websites (FCA, ASIC)</td></tr>
+</tbody></table>
+<div class="callout callout-red"><div class="callout-title">🚨 If You See These — Run</div>Anyone promising guaranteed profits · Anyone asking for your seed phrase or password · Platforms with no verifiable regulation · Pressure to "act now before the window closes" · "Mentors" selling signals at premium prices with no audited track record</div>`
+      },
+      {
+        title: "8.2 — Demo-to-Live Transition",
+        content: `<div class="callout callout-green"><div class="callout-title">✅ Readiness Checklist (ALL Must Be Met)</div>
+Minimum 2 months consistent demo with documented journal · Positive expectancy over 30+ demo trades following plan · No emotional deviations from rules (journal evidence) · Understanding of ALL fees: spread, commission, swap, withdrawal · Emergency fund secured separately from trading capital · Tax implications researched for your jurisdiction · <strong>The Sleep Test:</strong> Can you place a real-money trade, set your stop, walk away, and sleep without anxiety? If no, your size is too large.</div>
+<div class="code-block">TRANSITION PROTOCOL — START SMALL:
+1. Fund with "Tuition Money": Amount 100% comfortable losing ($100–$500)
+2. Trade Micro Sizes: Smallest possible position only
+3. Maintain Journal Rigor: Same detail as demo; add "real money emotion" notes
+4. Scale Gradually: Only increase size after 20+ consecutive live trades following plan
+5. Never Add Funds After Losses: If you lose initial tuition — stop. Re-evaluate. Do not chase.</div>`
+      },
+      {
+        title: "8.3 — Health, Taxes & Sustainable Trading",
+        content: `<div class="callout callout-yellow"><div class="callout-title">🧠 Sustainable Trading Habits</div>
+<strong>Screen Time:</strong> 20-20-20 rule (every 20 min, look 20 feet away for 20 sec)<br>
+<strong>Sleep:</strong> Never trade fatigued — cognitive performance drops sharply after 16+ hours awake<br>
+<strong>Stress Reset:</strong> 4-7-8 breathing, short walk, or journaling before re-entering after a loss<br>
+<strong>Addiction Awareness:</strong> Know the warning signs — trading as escape, increasing risk after losses, inability to stop</div>
+<div class="callout callout-red"><div class="callout-title">⚠ Tax Disclaimer</div>Tax laws vary significantly by country and change frequently. Consult a qualified tax professional in your jurisdiction. Keep records of every transaction: date, asset, entry/exit, fees, and P&amp;L. Crypto-to-crypto trades may be taxable events in many jurisdictions.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which is a RED FLAG of a potentially fraudulent trading signal service?', opts: ['Transparent historical track record publicly available', 'Promise of a 95% win rate with a "secret algorithm"', 'Requirement to use only regulated brokers', 'Free educational content provided'], answer: 1 },
+      { type: 'tf', q: 'True or False: If your stop-loss gets hit due to a news gap, you should immediately re-enter to catch the expected rebound.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What is the PRIMARY purpose of the Demo-to-Live Readiness Checklist?', opts: ['To maximize profits on the first live trade', 'To ensure objective, data-driven readiness before risking real capital', 'To guarantee success in live trading', 'To select the best broker for you'], answer: 1 },
+      { type: 'mc', q: 'What does "The Sleep Test" help you determine?', opts: ['The best time to sleep and trade simultaneously', 'Whether your position size is emotionally manageable with real money', 'Whether the broker is regulated', 'How many hours to study each day'], answer: 1 },
+      { type: 'open', q: 'You lose your initial $200 "tuition" live account. What should you do NEXT — and what should you absolutely NOT do?', hint: 'Think about returning to demo, reviewing your journal, and the "never chase" rule.' }
+    ]
+  }
+  ],
+  crypto: [
+  {
+    id: 0,
+    title: "Crypto Market Foundations",
+    week: "Week 1",
+    emoji: "🚀",
+    intro: "Crypto-only track: blockchains without hype, spot vs derivatives, coin categories, and trading words as students actually hear them on apps.",
+    lessons: [
+      {
+        title: "1.1 — What Is Crypto Here? (Simple + Technical)",
+        content: `<p class="lead"><strong>In plain English:</strong> Cryptocurrency is digital money + accounting on shared networks. Prices move from supply, demand, news, and sentiment—not from a single bank typing a number.</p>
+<p><strong>Technical note:</strong> Cryptography keeps balances hard to fake. Many markets trade <strong>24/7</strong>, so swings can happen while you sleep.</p>
+<table class="data-table"><thead><tr><th>Term</th><th>Plain English</th><th>Formal definition</th><th>Example</th></tr></thead><tbody>
+<tr><td>Blockchain</td><td>Many computers share one timeline of who sent what.</td><td>Distributed ledger of transactions in blocks.</td><td>Bitcoin publishes transfers publicly.</td></tr>
+<tr><td>Wallet</td><td>Keys that prove you can move coins—often an app or hardware stick.</td><td>Stores addresses + private signing keys.</td><td>Ledger device, exchange account, mobile wallet.</td></tr>
+<tr><td>Spot</td><td>Buy/sell the actual coin (or spot IOU on exchange books).</td><td>Immediate exchange for settlement asset.</td><td>Sell ETH for USDC at spot price.</td></tr>
+<tr><td>Derivative / perp</td><td>Bet on <em>price</em> with contracts; you may never withdraw the coin.</td><td>Contract tied to underlying price path.</td><td>BTC perpetual futures with leverage.</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "1.2 — Coin Categories You Will Hear In Class",
+        content: `<p class="lead"><strong>In plain English:</strong> People lump thousands of tokens into a few buckets—know the bucket before you buy the story.</p>
+<table class="data-table"><thead><tr><th>Bucket</th><th>Plain English</th><th>Why it matters</th><th>Examples</th></tr></thead><tbody>
+<tr><td>Store of value</td><td>“Digital gold” story—scarcity + attention.</td><td>Often slower tech changes, huge liquidity focus.</td><td>Bitcoin (BTC).</td></tr>
+<tr><td>Smart-contract L1/L2</td><td>Programmable chains where apps live.</td><td>Utility + dev activity drive narrative.</td><td>Ethereum, Solana, Arbitrum-style rollups.</td></tr>
+<tr><td>Stablecoin</td><td>Designed to hug $1 (or another fiat) for parking.</td><td>Quote currency for most alt trades.</td><td>USDC, USDT.</td></tr>
+<tr><td>Altcoin / meme</td><td>Everything else; includes serious teams <em>and</em> jokes.</td><td>Extreme risk while learning—size to zero mentally.</td><td>Study after risk basics stick.</td></tr>
+</tbody></table>
+<div class="callout callout-red"><div class="callout-title">Reality check</div>Daily moves of several percent on majors—and far more on thin alts—mean stops and sizing matter before “alpha.”</div>`
+      },
+      {
+        title: "1.3 — Trading Words On Every Exchange",
+        content: `<p class="lead"><strong>In plain English:</strong> <strong>Liquidity</strong> = easy fills; <strong>slippage</strong> = bad fill when order books are thin; <strong>liquidation</strong> = exchange force-closes your leveraged bet when collateral fails.</p>
+<table class="data-table"><thead><tr><th>Term</th><th>Plain English</th><th>Crypto context</th></tr></thead><tbody>
+<tr><td>Leverage</td><td>Borrowed size—P&amp;L accelerates both ways.</td><td>Common on perps; regions/products vary.</td></tr>
+<tr><td>Margin / liq price</td><td>Deposit held; if price crosses liq, position dies automatically.</td><td>Check liq price <em>before</em> confirming size.</td></tr>
+<tr><td>Funding rate</td><td>Tiny periodic payment between longs/shorts on perps—keeps price near spot.</td><td>Can nibble profit or add hidden cost.</td></tr>
+<tr><td>FOMO</td><td>Panic-buying vertical candles because TikTok screamed “send it.”</td><td>Not a strategy; journaling beats hype.</td></tr>
+</tbody></table>
+<div class="callout callout-yellow"><div class="callout-title">24/7 discipline</div>No closing bell ⇒ schedule breaks, alerts, and max daily loss so fatigue does not become a “strategy.”</div>`
+      }
+    ],
+    quiz: [
+      { type: 'tf', q: 'True or False: Liquid spot crypto markets take a full weekend break like the NYSE.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'A stablecoin is primarily meant to:', opts: ['Double every week predictably', 'Stay near a fiat peg for stable pricing', 'Replace Bitcoin mining', 'Hide trades from tax authorities'], answer: 1 },
+      { type: 'mc', q: 'Spot crypto trading usually means:', opts: ['Only perpetual futures at 25x', 'Buying/selling the coin (or 1:1 spot IOU) vs stable/fiat', 'Ignoring fees because “on-chain is free”', 'Sending seed phrases for “verification”'], answer: 1 },
+      { type: 'mc', q: 'Slippage in plain English is:', opts: ['Wi-Fi lag only', 'Filled worse than expected when liquidity is thin', 'Bonus rewards from exchanges', 'Automatic take-profit for beginners'], answer: 1 },
+      { type: 'open', q: 'Explain blockchain to someone age 12 using no jargon—or define it in two short sentences.', hint: 'Shared record; many copies; hard to rewrite history.' }
+    ]
+  },
+  {
+    id: 1,
+    title: "Exchanges, Wallets & Order Types",
+    week: "Week 2",
+    emoji: "🔐",
+    intro: "Crypto-centric: custody, exchanges, seed phrases, and order types you will tap in real apps.",
+    lessons: [
+      {
+        title: "2.1 — Choosing a Credible Exchange",
+        content: `<p class="lead"><strong>Plain English:</strong> An exchange is software matching buyers and sellers. If it is shady, you lose before the chart even prints.</p>
+<div class="callout callout-green"><div class="callout-title">✅ Exchange checklist</div>
+• Verifiable company + licensing statements you can cross-check<br>
+• 2FA, withdrawal whitelists, anti-phishing codes when offered<br>
+• Published reserves/audits (verify sources—marketing ≠ proof)<br>
+• Deep books + transparent fees for your actual trading pairs<br>
+• Clear incident history and how withdrawals are processed</div>
+<div class="callout callout-yellow"><div class="callout-title">Forex track reminder</div>FX brokers follow different rules. Use the green <strong>Forex course</strong> sidebar for pip/session vocabulary.</div>
+<div class="callout callout-red"><div class="callout-title">🚩 Run away</div>
+Guaranteed yields · anonymous “CEX” apps · cloned URLs · anybody asking for your seed phrase</div>`
+      },
+      {
+        title: "2.2 — Wallets & Keys (KYC + Hygiene)",
+        content: `<p class="lead"><strong>Plain English:</strong> <strong>Seed phrase</strong> = master backup. Lose it and access is gone; share it and thieves thank you.</p>
+<ul>
+<li>Complete honest KYC on custodial exchanges when required.</li>
+<li>Authenticator app &gt; SMS SIM swaps; lock biometrics physically.</li>
+<li>Whitelist withdrawal addresses; rehearse with tiny test sends.</li>
+<li>Long-term stack: practice hardware wallets before size grows.</li>
+<li>Keep trading float separate from cold “do not touch” savings.</li>
+</ul>
+<div class="callout callout-yellow"><div class="callout-title">📱 Mobile discipline</div>Official APK/App Store listing only · no side-loaded “mods” promising leverage.</div>`
+      },
+      {
+        title: "2.3 — Orders on Crypto Books",
+        content: `<p class="lead"><strong>Plain English:</strong> Same ideas as traditional markets—market buys at whatever is available; limits wait for your price; stops automate exits/entries. Thin books = meaner slippage.</p>
+<table class="data-table"><thead><tr><th>Order</th><th>Plain English</th><th>Crypto nuance</th></tr></thead><tbody>
+<tr><td>Market</td><td>Get filled now.</td><td>Wicks erase resting liquidity fast.</td></tr>
+<tr><td>Limit</td><td>Queue for a better price.</td><td>May earn maker fees—read tier tables.</td></tr>
+<tr><td>Stop / conditional</td><td>If price crosses X, act.</td><td>Naming differs per app—demo first.</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">🔐 Non-negotiable</div>Support never slides into DMs. Bookmark exchange URLs. When panic hits, breathe before typing seed or passwords anywhere.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'A seed phrase mainly is:', opts: ['A free NFT airdrop', 'The master backup that controls wallet recovery', 'The same as an API public key', 'A tax ID for DeFi'], answer: 1 },
+      { type: 'tf', q: 'True or False: SMS 2FA alone is ideal for securing large exchange accounts.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'Thin order books mostly worsen:', opts: ['Funding rate formulas', 'Slippage on aggressive market orders', 'Block confirmation times', 'Hardware wallet firmware'], answer: 1 },
+      { type: 'mc', q: 'Withdrawal whitelists help because they:', opts: ['Remove network fees', 'Block funds from going to surprise addresses', 'Guarantee 20% monthly returns', 'Replace KYC forever'], answer: 1 },
+      { type: 'open', q: 'List three scam signs for fake exchanges.', hint: 'Think seeds, guarantees, weird URLs, anonymous teams.' }
+    ]
+  },
+  {
+    id: 2,
+    title: "Technical Analysis Foundations",
+    week: "Weeks 3–4",
+    emoji: "📈",
+    intro: "Learn to read price charts, identify support and resistance, use Fibonacci retracements, and apply essential indicators.",
+    lessons: [
+      {
+        title: "3.1 — Reading Price Charts",
+        content: `<p>Every candle on a chart tells a story. Each <strong>candlestick</strong> shows four data points: Open, High, Low, Close (OHLC). Green/white candles close higher than they opened (bullish); red/black candles close lower (bearish). Wicks (shadows) show price rejection at extremes.</p>
+<table class="data-table"><thead><tr><th>Timeframe</th><th>Best For</th><th>Beginner Recommendation</th></tr></thead><tbody>
+<tr><td>M1–M15</td><td>Scalping</td><td>❌ Avoid — too much noise</td></tr>
+<tr><td>H1–H4</td><td>Day trading</td><td>⚠ Use after mastering daily</td></tr>
+<tr><td>Daily (D1)</td><td>Swing trading</td><td>✅ START HERE — clearer signals</td></tr>
+<tr><td>Weekly (W1)</td><td>Position trading</td><td>✅ Use to confirm trend direction</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "3.2 — Support, Resistance & Market Structure",
+        content: `<table class="data-table"><thead><tr><th>Type</th><th>Description</th><th>Beginner Application</th></tr></thead><tbody>
+<tr><td>Horizontal S/R</td><td>Fixed price levels from prior swing highs/lows</td><td>✅ START HERE — most reliable</td></tr>
+<tr><td>Trendline</td><td>Slanted lines connecting swing points</td><td>Draw only in clear trends</td></tr>
+<tr><td>Dynamic (EMAs)</td><td>Moving levels like 21/50 EMA</td><td>Combine with horizontal S/R</td></tr>
+<tr><td>Psychological</td><td>Round numbers attracting attention</td><td>Place stops just beyond these</td></tr>
+<tr><td>Fibonacci</td><td>Math-based retracement zones</td><td>Focus on 38.2% & 61.8%</td></tr>
+<tr><td>Role-Reversal</td><td>Old support becomes new resistance</td><td>"Old resistance = new support" rule</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">📐 Market Structure</div>
+<strong>Uptrend</strong>: Series of Higher Highs (HH) and Higher Lows (HL).<br>
+<strong>Downtrend</strong>: Series of Lower Highs (LH) and Lower Lows (LL).<br>
+A <strong>Break of Structure (BOS)</strong> confirms trend continuation. A <strong>Change of Character (CHoCH)</strong> signals potential reversal. Trade with the structure, not against it.</div>`
+      },
+      {
+        title: "3.3 — Fibonacci Retracements & Indicators",
+        content: `<div class="code-block">UPTREND PULLBACK SETUP (Fibonacci):
+1. Confirm uptrend on Daily (higher highs + higher lows)
+2. Wait for pullback to 38.2% or 61.8% Fib zone + horizontal support
+3. Look for bullish confirmation (candlestick pattern, RSI > 30, volume increase)
+4. Enter long; stop below 76.4% Fib or recent swing low
+5. Target previous swing high OR 1:2 minimum risk-reward</div>
+<table class="data-table"><thead><tr><th>Indicator</th><th>Purpose</th><th>Settings</th><th>Interpretation</th></tr></thead><tbody>
+<tr><td>Moving Averages</td><td>Trend direction, dynamic S/R</td><td>50 EMA + 200 EMA on Daily</td><td>Price above = uptrend bias; below = downtrend</td></tr>
+<tr><td>RSI</td><td>Momentum, overbought/oversold</td><td>14-period, 30/70 levels</td><td>&gt;70 = potentially overbought; &lt;30 = oversold</td></tr>
+<tr><td>MACD</td><td>Momentum shifts</td><td>Default (12,26,9)</td><td>Signal crossovers + histogram direction</td></tr>
+<tr><td>Volume</td><td>Confirm move strength</td><td>Raw volume or MA</td><td>Rising volume on breakouts = stronger conviction</td></tr>
+</tbody></table>
+<div class="callout callout-yellow"><div class="callout-title">⚠ Golden Rule</div>Use indicators to CONFIRM price action, not as standalone signal generators. More indicators ≠ better signals.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which support/resistance type is MOST reliable for beginners?', opts: ['Fibonacci', 'Horizontal S/R', 'Psychological levels', 'Trendline'], answer: 1 },
+      { type: 'tf', q: 'True or False: Fibonacci levels guarantee price reversal at exact prices.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'In an uptrend, where do you draw Fibonacci retracement FROM and TO?', opts: ['High to Low', 'Low to High', 'Left to Right only', 'Right to Left only'], answer: 1 },
+      { type: 'mc', q: 'What does an RSI reading above 70 typically suggest?', opts: ['Strong buy signal', 'Oversold condition — time to buy', 'Asset may be overbought — use caution on longs', 'Guaranteed reversal'], answer: 2 },
+      { type: 'open', q: 'Price breaks above horizontal resistance at $50, then pulls back to $50. What role does $50 likely play now? Why?', hint: 'Think about the "role-reversal" principle.' }
+    ]
+  },
+  {
+    id: 3,
+    title: "Risk Management",
+    week: "Week 5",
+    emoji: "🛡",
+    intro: "The most critical module in this course. Learn position sizing, risk-reward ratios, leverage awareness, and correlation — the pillars of trading survival.",
+    lessons: [
+      {
+        title: "4.1 — The Golden Rules of Risk",
+        content: `<div class="callout callout-yellow"><div class="callout-title">🔑 Professional Mindset</div>"Amateurs focus on profits. Professionals focus on risk." Master risk first — profits follow discipline.</div>
+<ul>
+<li><strong>Risk per Trade:</strong> Never risk more than 1–2% of account balance on a single trade</li>
+<li><strong>Stop-Loss Always:</strong> Every trade must have a predefined stop-loss BEFORE entry</li>
+<li><strong>Risk-Reward Ratio:</strong> Aim for minimum 1:2 (potential profit ≥ 2× potential loss)</li>
+<li><strong>Position Sizing:</strong> Calculate based on stop distance — NEVER by emotion or gut feel</li>
+</ul>`
+      },
+      {
+        title: "4.2 — Position Sizing & Leverage",
+        content: `<div class="code-block">POSITION SIZING FORMULA:
+Position Size = (Account Risk $) ÷ (Stop Loss distance × Pip/Unit Value)
+
+FOREX EXAMPLE:
+Account: $1,000 | Risk: 1% = $10
+Entry: EUR/USD 1.0850 | Stop: 1.0830 (20 pips)
+Pip Value (micro lot): $0.10
+Position Size: $10 ÷ (20 × $0.10) = 5 MICRO LOTS ✓
+
+CRYPTO EXAMPLE:
+Account: $1,000 | Risk: 1% = $10
+Entry: BTC $60,000 | Stop: $58,800 ($1,200 risk per BTC)
+Position Size: $10 ÷ $1,200 = 0.0083 BTC ✓</div>
+<table class="data-table"><thead><tr><th>Leverage</th><th>Effect on $1,000 Account</th><th>Beginner Recommendation</th></tr></thead><tbody>
+<tr><td>1:1</td><td>Controls $1,000</td><td>✅ SAFEST — Start here</td></tr>
+<tr><td>1:10</td><td>Controls $10,000</td><td>⚠ Use after 2+ months demo success</td></tr>
+<tr><td>1:50+</td><td>Controls $50,000+</td><td>❌ AVOID — Liquidation risk extreme</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "4.3 — Correlation & Portfolio Management",
+        content: `<table class="data-table"><thead><tr><th>Concept</th><th>Explanation</th><th>Beginner Action</th></tr></thead><tbody>
+<tr><td>USD Strength</td><td>USD↑ often means EUR/USD↓ AND BTC↓</td><td>Avoid multiple trades betting against USD simultaneously</td></tr>
+<tr><td>Risk-On/Off</td><td>Risk-off = AUD/JPY↓ AND altcoins↓</td><td>Don't assume crypto and forex are independent</td></tr>
+<tr><td>BTC Dominance</td><td>BTC dominance↑ often = altcoins↓</td><td>Monitor BTC trend before trading altcoins</td></tr>
+<tr><td>Practical Rule</td><td>Don't concentrate all risk one direction</td><td>Max 2–3 trades with similar directional bias</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">📋 Portfolio Rules</div>
+Max 3–5 open trades for beginners · Never risk &gt;20% of capital in one asset · Stop trading if you lose 3–5% of account in one day · Weekly review: adjust plan based on data, not emotion</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'What is the MAXIMUM recommended risk per trade for beginners?', opts: ['0.5%', '1–2%', '5%', '10%'], answer: 1 },
+      { type: 'tf', q: 'True or False: It is acceptable to move your stop-loss further away after entry if price moves against you.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'If your account is $2,000 and you risk 1% per trade, what is your maximum loss per trade?', opts: ['$10', '$20', '$50', '$200'], answer: 1 },
+      { type: 'mc', q: 'Why is correlation awareness important in trading?', opts: ['To find more trades faster', 'To avoid unintentionally concentrating risk across trades that move together', 'To increase leverage safely', 'To predict exact market tops and bottoms'], answer: 1 },
+      { type: 'open', q: 'You have 3 open trades, all betting on USD weakness. What hidden risk are you carrying?', hint: 'Think about what happens if USD suddenly strengthens.' }
+    ]
+  },
+  {
+    id: 4,
+    title: "Psychology & Trader Types",
+    week: "Week 6",
+    emoji: "🧠",
+    intro: "Discover your trader type, learn to recognize the psychological traps that destroy accounts, and build a repeatable, disciplined routine.",
+    lessons: [
+      {
+        title: "5.1 — Know Your Trader Type",
+        content: `<table class="data-table"><thead><tr><th>Type</th><th>Holding Period</th><th>Time Needed</th><th>Best For</th><th>Key Risk</th></tr></thead><tbody>
+<tr><td>Scalper</td><td>Seconds–minutes</td><td>Very High</td><td>Fast decision-makers</td><td>High stress, burnout</td></tr>
+<tr><td>Day Trader</td><td>Minutes–hours</td><td>High</td><td>No overnight exposure</td><td>Fatigue, missing moves</td></tr>
+<tr><td>Swing Trader</td><td>Days–weeks</td><td>Medium (1–2x/day checks)</td><td>Full-time jobs</td><td>Overnight gap risk</td></tr>
+<tr><td>Position Trader</td><td>Weeks–months</td><td>Low (weekly review)</td><td>Long-term thinkers</td><td>Large drawdowns</td></tr>
+</tbody></table>
+<div class="callout callout-green"><div class="callout-title">✅ Beginner Recommendation</div>Most beginners succeed starting with <strong>swing trading on demo</strong>. Check charts 1–2× per day, hold positions days to weeks, and avoid the stress of constant screen-watching.</div>`
+      },
+      {
+        title: "5.2 — Common Beginner Mistakes",
+        content: `<table class="data-table"><thead><tr><th>Mistake</th><th>Why Dangerous</th><th>Solution</th></tr></thead><tbody>
+<tr><td>No written trading plan</td><td>Emotional decisions → inconsistent results</td><td>Write rules BEFORE trading</td></tr>
+<tr><td>Overtrading</td><td>Increases fees, fatigue, and impulsive errors</td><td>Set daily/weekly trade limits</td></tr>
+<tr><td>Revenge trading</td><td>Chasing losses compounds errors exponentially</td><td>24-hour break after 2 losses; review journal</td></tr>
+<tr><td>Ignoring stops</td><td>Small losses become catastrophic</td><td>Set stops pre-trade; NEVER move wider</td></tr>
+<tr><td>FOMO buying / Panic selling</td><td>Entering peaks, selling lows</td><td>Wait for YOUR setup; use checklists</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "5.3 — Building a Repeatable Routine",
+        content: `<div class="callout callout-yellow"><div class="callout-title">📋 Pre-Trade Checklist (Non-Negotiable)</div>
+Market context: Trending or ranging? (Check Daily first) · Setup matches ALL written plan criteria · Position size calculated at 1–2% risk · Stop-loss at logical technical level · Take-profit set for minimum 1:2 R/R · Emotionally calm and focused? (If no, SKIP) · No high-impact news within 4 hours · Correlation check: Not overexposed to one direction?</div>
+<div class="code-block">POST-TRADE JOURNAL TEMPLATE:
+Date | Asset | Timeframe | Setup Type | Entry Reason | Entry Price | 
+Stop Loss | Take Profit | Position Size | Risk $ | Outcome | 
+Win/Loss | R-Multiple | What Went Well | What to Improve | 
+Emotion (1-10) | Notes</div>
+<div class="callout callout-green"><div class="callout-title">🧘 Emotional Discipline Tools</div>
+<strong>24-Hour Rule:</strong> After 2 consecutive losses, stop for 24 hours. Review journal before resuming.<br>
+<strong>Mindfulness Pause:</strong> Before clicking buy/sell: take 3 deep breaths. Ask: "Is this my plan, or my emotion?"</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which trader type is often BEST for beginners who have full-time jobs?', opts: ['Scalper', 'Day Trader', 'Swing Trader', 'High-Frequency Trader'], answer: 2 },
+      { type: 'tf', q: 'True or False: It is acceptable to skip your pre-trade checklist if you feel highly confident about a trade.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What should you do after 2 consecutive losing trades?', opts: ['Increase position size to recover faster', 'Take a 24-hour break and review your journal', 'Switch to a completely new strategy immediately', 'Trade more frequently to find a winner'], answer: 1 },
+      { type: 'mc', q: 'What is the primary benefit of tracking R-multiples in your trading journal?', opts: ['It shows your total dollar profit', 'It evaluates strategy performance independent of account size', 'It predicts future trade outcomes', 'It calculates leverage automatically'], answer: 1 },
+      { type: 'open', q: 'You feel anxious holding a trade overnight. Name two practical solutions to address this.', hint: 'Think about position size and trader style.' }
+    ]
+  },
+  {
+    id: 5,
+    title: "Crypto Fundamental Analysis & News",
+    week: "Week 7",
+    emoji: "📰",
+    intro: "Understand what moves markets beyond price charts — tokenomics, regulation, and macro, and how to read an economic calendar.",
+    lessons: [
+      {
+        title: "6.1 — Forex Fundamental Drivers",
+        content: `<p>Technical analysis shows <em>where</em> price might react. Fundamental analysis explains <em>why</em> it moves. Ignoring fundamentals is like driving with only a rearview mirror.</p>
+<table class="data-table"><thead><tr><th>Catalyst</th><th>Impact on Currency</th><th>Beginner Resource</th></tr></thead><tbody>
+<tr><td>Central Bank Rate Decisions</td><td>Higher rates → currency strength</td><td>ForexFactory calendar; central bank websites</td></tr>
+<tr><td>Economic Data (GDP, CPI, NFP)</td><td>Strong data → currency strength</td><td>Focus on "High Impact" events only</td></tr>
+<tr><td>Geopolitical Events</td><td>Risk-off → USD/JPY/CHF strength</td><td>Reuters, Bloomberg; avoid social media rumors</td></tr>
+<tr><td>Market Sentiment</td><td>Risk-on = growth currencies; risk-off = safe havens</td><td>Learn to identify "risk-off" days</td></tr>
+</tbody></table>
+<div class="callout callout-red"><div class="callout-title">⚠ Beginner Rule</div>Do NOT trade high-impact news events until 3+ months of consistent demo experience. The volatility and slippage can blow through stops instantly.</div>`
+      },
+      {
+        title: "6.2 — Crypto Fundamental Drivers",
+        content: `<table class="data-table"><thead><tr><th>Catalyst</th><th>Impact</th><th>Resource</th></tr></thead><tbody>
+<tr><td>Tokenomics</td><td>Supply schedule, utility, inflation affect demand</td><td>CoinGecko; project whitepapers</td></tr>
+<tr><td>Protocol Upgrades/Hard Forks</td><td>Increase utility or cause chain splits</td><td>Official project channels only</td></tr>
+<tr><td>Regulatory News</td><td>Positive clarity → adoption; bans → sell-offs</td><td>CoinDesk, The Block</td></tr>
+<tr><td>Institutional Adoption</td><td>ETF approvals, treasury allocations → legitimacy</td><td>Verify across multiple sources</td></tr>
+<tr><td>Macro Environment</td><td>Crypto often correlates with tech stocks/Nasdaq</td><td>Monitor S&amp;P 500, VIX, DXY for context</td></tr>
+</tbody></table>`
+      },
+      {
+        title: "6.3 — Reading the Economic Calendar",
+        content: `<div class="code-block">📅 HOW TO READ FOREXFACTORY:
+🔴 Red   = High Impact  → Expect volatility; AVOID trading during release
+🟠 Orange = Medium Impact → Monitor; may cause moderate moves
+🟡 Yellow = Low Impact   → Usually minimal price effect
+
+✅ BEGINNER PROTOCOL:
+1. Filter to show ONLY "Red" events for your target currency
+2. Note release time in YOUR timezone
+3. 30 min BEFORE: Close positions OR reduce size + widen stops
+4. 30 min AFTER: Wait for volatility to settle before new entries</div>
+<div class="callout callout-yellow"><div class="callout-title">📋 Open Trade Before News — Your 3 Options</div>
+<strong>Conservative (Beginner Recommended):</strong> Close the trade entirely. No position = no risk.<br>
+<strong>Moderate:</strong> Move stop-loss to breakeven or wider technical level.<br>
+<strong>Risk-Aware:</strong> Reduce position size while keeping original stop.<br>
+<em>Never widen your stop-loss after the news starts.</em></div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which economic event typically has the HIGHEST impact on forex markets?', opts: ['Minor retail sales data', 'Central bank rate decision', 'Local public holiday', 'Social media trending topic'], answer: 1 },
+      { type: 'tf', q: 'True or False: Beginners should actively trade during high-impact news releases to capture the big moves.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What does "tokenomics" refer to in cryptocurrency?', opts: ['The technology behind the blockchain', 'Economic design of a token including supply, distribution, and utility', 'The current market price of a token', 'The trading fees on a crypto exchange'], answer: 1 },
+      { type: 'mc', q: 'Why might crypto prices correlate with the Nasdaq stock index?', opts: ['Both use the same blockchain technology', 'Both are often treated as "risk-on" assets by institutional investors', 'Crypto exchanges are listed on Nasdaq', 'Nasdaq sets crypto regulatory policy'], answer: 1 },
+      { type: 'open', q: 'You have a bullish technical setup on EUR/USD, but the ECB rate decision is in 2 hours. What is the safest course of action?', hint: 'Think about the news trading rule for beginners.' }
+    ]
+  },
+  {
+    id: 6,
+    title: "Strategy & Demo Practice",
+    week: "Weeks 8–9",
+    emoji: "🎯",
+    intro: "Build your first complete trading strategies, learn proper backtesting methodology, and set up your demo trading protocol.",
+    lessons: [
+      {
+        title: "7.1 — Beginner Strategy A: Trend-Following Pullback",
+        content: `<div class="code-block">STRATEGY A — TREND-FOLLOWING PULLBACK (ALL criteria must be met):
+✅ Daily chart shows clear uptrend (HH/HL) OR downtrend (LH/LL)
+✅ Price pulls back to CONFLUENCE ZONE:
+   • Horizontal support/resistance PLUS
+   • 38.2% or 61.8% Fibonacci retracement PLUS  
+   • Bounce/rejection at 50 EMA (dynamic support)
+✅ Bullish/bearish candlestick CONFIRMATION at zone
+✅ RSI between 30–70 (not extreme)
+✅ No high-impact news within next 4 hours
+
+Entry:  Close of confirmation candle
+Stop:   Below (longs) or above (shorts) confluence zone + 5–10 pip buffer
+Target: Previous swing high/low OR minimum 1:2 risk-reward
+Size:   Calculated using 1% risk formula — always</div>
+<div class="callout callout-red"><div class="callout-title">⚠ Critical Rule</div>If ANY single setup criterion is missing — SKIP the trade. Patience is not weakness. It is your strategy.</div>`
+      },
+      {
+        title: "7.2 — Backtesting Methodology",
+        content: `<p><strong>Backtesting</strong> is testing your strategy on historical price data before risking real money. It reveals whether your strategy has a genuine edge — or just looks good on cherry-picked examples.</p>
+<ul>
+<li>Select your strategy and chart (Daily EUR/USD or BTC/USDT)</li>
+<li>Use platform replay mode or scroll back 3–6 months</li>
+<li>Apply ALL criteria rigorously — mark only valid setups</li>
+<li>Record each trade: Entry, stop, target, outcome, R-multiple</li>
+<li>Test at least 20–30 historical setups for statistical relevance</li>
+</ul>
+<div class="callout callout-yellow"><div class="callout-title">📊 Key Metrics to Track</div>
+<strong>Win Rate:</strong> % of profitable trades (40–60% fine with good R:R)<br>
+<strong>R-Multiple:</strong> Profit/loss as multiple of initial risk. +2R = made 2× your risk.<br>
+<strong>Expectancy:</strong> (Win Rate × Avg Win) − (Loss Rate × Avg Loss). Must be positive to have an edge.</div>`
+      },
+      {
+        title: "7.3 — Demo Trading Protocol",
+        content: `<div class="callout callout-green"><div class="callout-title">✅ Minimum Demo Requirements Before Live</div>
+Minimum 8 weeks (2 months) of demo trading · At least 30 trades following written plan exactly · Positive expectancy over those 30 trades · No risk rule deviations (journal evidence) · At least 3 losing trades documented — and handled correctly</div>
+<div class="code-block">DEMO TRADING AGREEMENT:
+"I, [Your Name], agree to:
+• Trade demo minimum 8 weeks before considering live funds
+• Follow written trading plan on every single trade
+• Risk no more than 1% per trade, even on demo
+• Journal every trade within 1 hour of closing
+• Review journal weekly; adjust only based on data, not emotion
+Signed: __________________ Date: __________"</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'What is the MINIMUM number of historical setups recommended when backtesting a strategy?', opts: ['5 setups', '10 setups', '20–30 setups', '100+ setups always required'], answer: 2 },
+      { type: 'tf', q: 'True or False: If one setup criterion is missing but you really like the trade, you should take it anyway.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What does "positive expectancy" mean in trading?', opts: ['You win more trades than you lose', 'On average, your strategy makes money over many trades', 'You never have losing trades', 'Your win rate is above 70%'], answer: 1 },
+      { type: 'mc', q: 'A backtest shows 45% win rate with an average 1:3 risk-reward. What is the expectancy per trade?', opts: ['−0.10R (negative)', '+0.80R (positive)', '+1.35R (positive)', 'Cannot be calculated'], answer: 1 },
+      { type: 'open', q: 'Why should you treat demo trading with the same discipline and rigor as live trading?', hint: 'Think about habit formation and emotional preparation.' }
+    ]
+  },
+  {
+    id: 7,
+    title: "Crypto Scam Awareness & Live Transition",
+    week: "Weeks 10–12",
+    emoji: "🚀",
+    intro: "Protect yourself from scams, prepare for the emotional reality of live trading, build sustainable habits, and create your transition plan.",
+    lessons: [
+      {
+        title: "8.1 — Scam Awareness Deep Dive",
+        content: `<table class="data-table"><thead><tr><th>Scam Type</th><th>Warning Signs</th><th>Protection</th></tr></thead><tbody>
+<tr><td>Guaranteed Profit Signals</td><td>90%+ win rate promises, "secret methods", upfront payment</td><td>Never pay for signals; verify track records independently</td></tr>
+<tr><td>Phishing & Impersonation</td><td>URL misspellings, urgent "verify account" messages, DMs from "support"</td><td>Bookmark official sites; official support NEVER DMs first</td></tr>
+<tr><td>Pump-and-Dump (Crypto)</td><td>Sudden social media hype on low-cap tokens, "buy now before it moons"</td><td>Avoid FOMO; stick to top 20 coins by market cap while learning</td></tr>
+<tr><td>Unregulated Brokers</td><td>1:500 leverage promises, no KYC, "bonus" offers that lock funds</td><td>Verify regulation on official authority websites (FCA, ASIC)</td></tr>
+</tbody></table>
+<div class="callout callout-red"><div class="callout-title">🚨 If You See These — Run</div>Anyone promising guaranteed profits · Anyone asking for your seed phrase or password · Platforms with no verifiable regulation · Pressure to "act now before the window closes" · "Mentors" selling signals at premium prices with no audited track record</div>`
+      },
+      {
+        title: "8.2 — Demo-to-Live Transition",
+        content: `<div class="callout callout-green"><div class="callout-title">✅ Readiness Checklist (ALL Must Be Met)</div>
+Minimum 2 months consistent demo with documented journal · Positive expectancy over 30+ demo trades following plan · No emotional deviations from rules (journal evidence) · Understanding of ALL fees: spread, commission, swap, withdrawal · Emergency fund secured separately from trading capital · Tax implications researched for your jurisdiction · <strong>The Sleep Test:</strong> Can you place a real-money trade, set your stop, walk away, and sleep without anxiety? If no, your size is too large.</div>
+<div class="code-block">TRANSITION PROTOCOL — START SMALL:
+1. Fund with "Tuition Money": Amount 100% comfortable losing ($100–$500)
+2. Trade Micro Sizes: Smallest possible position only
+3. Maintain Journal Rigor: Same detail as demo; add "real money emotion" notes
+4. Scale Gradually: Only increase size after 20+ consecutive live trades following plan
+5. Never Add Funds After Losses: If you lose initial tuition — stop. Re-evaluate. Do not chase.</div>`
+      },
+      {
+        title: "8.3 — Health, Taxes & Sustainable Trading",
+        content: `<div class="callout callout-yellow"><div class="callout-title">🧠 Sustainable Trading Habits</div>
+<strong>Screen Time:</strong> 20-20-20 rule (every 20 min, look 20 feet away for 20 sec)<br>
+<strong>Sleep:</strong> Never trade fatigued — cognitive performance drops sharply after 16+ hours awake<br>
+<strong>Stress Reset:</strong> 4-7-8 breathing, short walk, or journaling before re-entering after a loss<br>
+<strong>Addiction Awareness:</strong> Know the warning signs — trading as escape, increasing risk after losses, inability to stop</div>
+<div class="callout callout-red"><div class="callout-title">⚠ Tax Disclaimer</div>Tax laws vary significantly by country and change frequently. Consult a qualified tax professional in your jurisdiction. Keep records of every transaction: date, asset, entry/exit, fees, and P&amp;L. Crypto-to-crypto trades may be taxable events in many jurisdictions.</div>`
+      }
+    ],
+    quiz: [
+      { type: 'mc', q: 'Which is a RED FLAG of a potentially fraudulent trading signal service?', opts: ['Transparent historical track record publicly available', 'Promise of a 95% win rate with a "secret algorithm"', 'Requirement to use only regulated brokers', 'Free educational content provided'], answer: 1 },
+      { type: 'tf', q: 'True or False: If your stop-loss gets hit due to a news gap, you should immediately re-enter to catch the expected rebound.', opts: ['True', 'False'], answer: 1 },
+      { type: 'mc', q: 'What is the PRIMARY purpose of the Demo-to-Live Readiness Checklist?', opts: ['To maximize profits on the first live trade', 'To ensure objective, data-driven readiness before risking real capital', 'To guarantee success in live trading', 'To select the best broker for you'], answer: 1 },
+      { type: 'mc', q: 'What does "The Sleep Test" help you determine?', opts: ['The best time to sleep and trade simultaneously', 'Whether your position size is emotionally manageable with real money', 'Whether the broker is regulated', 'How many hours to study each day'], answer: 1 },
+      { type: 'open', q: 'You lose your initial $200 "tuition" live account. What should you do NEXT — and what should you absolutely NOT do?', hint: 'Think about returning to demo, reviewing your journal, and the "never chase" rule.' }
+    ]
+  }
+  ]
+};
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+function getModules() { return modulesByTrack[appState.track]; }
+function ts() { return appState[appState.track]; }
+let appState = {
+  track: 'forex',
+  forex: { unlockedUpTo: 0, completed: [], currentModule: 0, view: 'lesson', quizAnswers: {}, quizResults: null },
+  crypto: { unlockedUpTo: 0, completed: [], currentModule: 0, view: 'lesson', quizAnswers: {}, quizResults: null },
+};
+function setActiveTrack(t) {
+  if (t !== 'forex' && t !== 'crypto') return;
+  appState.track = t;
+  document.querySelectorAll('.track-btn').forEach(function (b) {
+    b.classList.toggle('active', b.getAttribute('data-track') === t);
+  });
+  render();
+}
+
+// ═══════════════════════════════════════════
+// RENDER NAV
+// ═══════════════════════════════════════════
+function renderNav() {
+  const nav = document.getElementById('module-nav');
+  nav.innerHTML = getModules().map((m, i) => {
+    const isActive = ts().currentModule === i && true;
+    const isCompleted = ts().completed.includes(i);
+    const isLocked = i > ts().unlockedUpTo;
+    let cls = 'mod-btn';
+    if (isLocked) cls += ' locked';
+    else if (isCompleted && ts().currentModule !== i) cls += ' completed';
+    if (ts().currentModule === i) cls += ' active';
+
+    const statusIcon = isLocked ? '🔒' : isCompleted ? '✅' : '○';
+    return `<button class="${cls}" onclick="${isLocked ? '' : `goModule(${i})`}">
+      <span class="mod-num" style="color:${isLocked?'var(--muted)':isCompleted?'var(--accent)':'var(--accent2)'}">${i+1}</span>
+      <span class="mod-info">
+        <span class="mod-name">${m.title}</span>
+        <span class="mod-week">${m.week}</span>
+      </span>
+      <span class="mod-status">${statusIcon}</span>
+    </button>`;
+  }).join('');
+}
+
+function goModule(i) {
+  ts().currentModule = i;
+  ts().view = 'lesson';
+  ts().quizAnswers = {};
+  ts().quizResults = null;
+  render();
+}
+
+// ═══════════════════════════════════════════
+// RENDER CONTENT
+// ═══════════════════════════════════════════
+function render() {
+  document.querySelectorAll('.track-btn').forEach(function (b) {
+    b.classList.toggle('active', b.getAttribute('data-track') === appState.track);
+  });
+  renderNav();
+  const area = document.getElementById('content-area');
+  const mod = getModules()[ts().currentModule];
+
+  if (ts().view === 'lesson') {
+    area.innerHTML = `<div class="module-view">
+      <div class="mod-header">
+        <div class="mod-header-tag">MODULE ${ts().currentModule + 1} OF ${getModules().length} &nbsp;·&nbsp; ${mod.week}</div>
+        <h2>${mod.emoji} ${mod.title}</h2>
+        <p>${mod.intro}</p>
+      </div>
+      <div class="mod-body">
+        ${mod.lessons.map(l => `<div class="lesson"><div class="lesson-title">${l.title}</div>${l.content}</div>`).join('')}
+        <div class="quiz-cta">
+          <button class="btn-quiz" onclick="startQuiz()">TAKE MODULE QUIZ &nbsp;→</button>
+          <div class="quiz-note">You must score ≥80% to unlock the next module</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  else if (ts().view === 'quiz') {
+    renderQuiz();
+  }
+
+  else if (ts().view === 'results') {
+    renderResults();
+  }
+
+  else if (ts().view === 'complete') {
+    renderComplete();
+  }
+}
+
+// ═══════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════
+function startQuiz() {
+  ts().view = 'quiz';
+  ts().quizAnswers = {};
+  render();
+}
+
+function renderQuiz() {
+  const area = document.getElementById('content-area');
+  const mod = getModules()[ts().currentModule];
+  const qs = mod.quiz;
+  const total = qs.length;
+  const answered = Object.keys(ts().quizAnswers).length;
+  const pct = Math.round((answered / total) * 100);
+
+  area.innerHTML = `<div class="quiz-view">
+    <div class="quiz-header">
+      <div class="quiz-header-tag">MODULE ${ts().currentModule + 1} QUIZ</div>
+      <h2>KNOWLEDGE CHECK</h2>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:6px;">${answered} of ${total} answered</div>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="quiz-body">
+      ${qs.map((q, qi) => renderQuestion(q, qi)).join('')}
+      <div class="quiz-submit-area">
+        <button class="btn-submit" onclick="submitQuiz()" id="submit-btn" ${answered < total ? 'disabled' : ''}>SUBMIT ANSWERS</button>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">
+          ${answered < total ? `Answer all ${total} questions to submit` : 'All questions answered — ready to submit!'}
+        </span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderQuestion(q, qi) {
+  const ans = ts().quizAnswers[qi];
+  if (q.type === 'open') {
+    const val = ans || '';
+    return `<div class="question-block">
+      <div class="q-num">QUESTION ${qi + 1} / ${getModules()[ts().currentModule].quiz.length} — Open Response</div>
+      <div class="q-text">${q.q}</div>
+      <textarea class="text-answer" id="oa-${qi}" placeholder="Type your answer here..."
+        oninput="saveOpen(${qi})">${val}</textarea>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;">💡 Hint: ${q.hint}</div>
+    </div>`;
+  }
+
+  const opts = q.opts.map((opt, oi) => {
+    const selected = ans === oi;
+    return `<button class="option-btn${selected ? ' selected' : ''}"
+      onclick="selectOption(${qi}, ${oi})">
+      <span class="option-key">${String.fromCharCode(65 + oi)}</span> ${opt}
+    </button>`;
+  }).join('');
+
+  return `<div class="question-block">
+    <div class="q-num">QUESTION ${qi + 1} / ${getModules()[ts().currentModule].quiz.length} — ${q.type === 'tf' ? 'True / False' : 'Multiple Choice'}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options">${opts}</div>
+  </div>`;
+}
+
+function selectOption(qi, oi) {
+  ts().quizAnswers[qi] = oi;
+  renderQuiz();
+  // scroll to keep position
+}
+
+function saveOpen(qi) {
+  const el = document.getElementById(`oa-${qi}`);
+  if (el) {
+    ts().quizAnswers[qi] = el.value.trim() || '';
+    // update submit button
+    const mod = getModules()[ts().currentModule];
+    const total = mod.quiz.length;
+    const answered = Object.keys(ts().quizAnswers).filter(k => {
+      const a = ts().quizAnswers[k];
+      return a !== undefined && a !== null && a !== '';
+    }).length;
+    const btn = document.getElementById('submit-btn');
+    if (btn) {
+      btn.disabled = answered < total;
+      btn.nextElementSibling.textContent = answered < total
+        ? `Answer all ${total} questions to submit`
+        : 'All questions answered — ready to submit!';
+    }
+  }
+}
+
+function submitQuiz() {
+  const mod = getModules()[ts().currentModule];
+  const qs = mod.quiz;
+  let correct = 0;
+  const details = [];
+
+  qs.forEach((q, qi) => {
+    if (q.type === 'open') {
+      // open-ended always gets credit if answered
+      const ans = ts().quizAnswers[qi];
+      const got = ans && ans.length > 5;
+      if (got) correct++;
+      details.push({ qi, type: 'open', answered: got, correctAnswer: q.hint });
+    } else {
+      const userAns = ts().quizAnswers[qi];
+      const isCorrect = userAns === q.answer;
+      if (isCorrect) correct++;
+      details.push({ qi, type: q.type, userAns, correctAns: q.answer, isCorrect, q: q.q, opts: q.opts });
+    }
+  });
+
+  const score = Math.round((correct / qs.length) * 100);
+  ts().quizResults = { score, correct, total: qs.length, details };
+  ts().view = 'results';
+  render();
+}
+
+// ═══════════════════════════════════════════
+// RESULTS
+// ═══════════════════════════════════════════
+function renderResults() {
+  const area = document.getElementById('content-area');
+  const { score, correct, total, details } = ts().quizResults;
+  const passed = score >= 80;
+  const mod = getModules()[ts().currentModule];
+
+  const breakdown = details.map((d, i) => {
+    const q = mod.quiz[i];
+    if (d.type === 'open') {
+      return `<div style="margin-bottom:14px;padding:12px 16px;background:rgba(247,183,49,0.05);border:1px solid rgba(247,183,49,0.15);border-radius:8px;font-size:12px;">
+        <div style="color:var(--accent2);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;margin-bottom:6px;">Q${i+1} — OPEN RESPONSE ${d.answered ? '✅' : '⚠'}</div>
+        <div style="color:var(--text)">${q.q}</div>
+        <div style="color:var(--muted);margin-top:6px;">Hint: ${d.correctAnswer}</div>
+      </div>`;
+    }
+    return `<div style="margin-bottom:14px;padding:12px 16px;background:${d.isCorrect?'rgba(0,229,160,0.04)':'rgba(255,75,110,0.04)'};border:1px solid ${d.isCorrect?'rgba(0,229,160,0.15)':'rgba(255,75,110,0.15)'};border-radius:8px;font-size:12px;">
+      <div style="color:${d.isCorrect?'var(--accent)':'var(--accent3)'};font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;margin-bottom:6px;">Q${i+1} — ${d.isCorrect?'CORRECT ✅':'INCORRECT ✗'}</div>
+      <div style="color:var(--text);margin-bottom:6px;">${q.q}</div>
+      ${!d.isCorrect ? `<div style="color:var(--accent3)">Your answer: ${q.opts[d.userAns]}</div>` : ''}
+      <div style="color:var(--accent)">Correct answer: ${q.opts[d.correctAns]}</div>
+    </div>`;
+  }).join('');
+
+  area.innerHTML = `<div class="results-view">
+    <div class="results-score ${passed ? 'score-pass' : 'score-fail'}">${score}%</div>
+    <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:12px;">${correct} / ${total} CORRECT</div>
+    ${passed
+      ? `<div class="results-msg">🎉 <strong style="color:var(--accent)">Module Passed!</strong> You've demonstrated solid understanding of ${mod.title}. The next module is now unlocked.</div>`
+      : `<div class="results-msg">You scored ${score}% — a minimum of 80% is required to proceed. Review the module content, then retake the quiz. You've got this!</div>`
+    }
+    <div style="max-width:580px;margin:0 auto 30px;text-align:left;">${breakdown}</div>
+    ${passed
+      ? (ts().currentModule < getModules().length - 1
+          ? `<button class="btn-next" onclick="nextModule()">NEXT MODULE →</button>`
+          : `<button class="btn-next" onclick="showComplete()">VIEW CERTIFICATE 🎓</button>`)
+      : `<button class="btn-retry" onclick="retryQuiz()">↩ RETAKE QUIZ</button>
+         <button class="btn-next" onclick="reviewLesson()" style="background:transparent;border:1px solid var(--accent);color:var(--accent);">REVIEW LESSON</button>`
+    }
+  </div>`;
+
+  if (passed && !ts().completed.includes(ts().currentModule)) {
+    ts().completed.push(ts().currentModule);
+    if (ts().currentModule >= ts().unlockedUpTo) {
+      ts().unlockedUpTo = Math.min(ts().currentModule + 1, getModules().length - 1);
+    }
+    renderNav();
+  }
+}
+
+function nextModule() {
+  ts().currentModule = Math.min(ts().currentModule + 1, getModules().length - 1);
+  ts().view = 'lesson';
+  ts().quizAnswers = {};
+  ts().quizResults = null;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function retryQuiz() {
+  ts().view = 'quiz';
+  ts().quizAnswers = {};
+  ts().quizResults = null;
+  render();
+}
+
+function reviewLesson() {
+  ts().view = 'lesson';
+  ts().quizAnswers = {};
+  ts().quizResults = null;
+  render();
+}
+
+function showComplete() {
+  ts().view = 'complete';
+  render();
+}
+
+function renderComplete() {
+  const area = document.getElementById('content-area');
+  area.innerHTML = `<div class="completion-view">
+    <div class="completion-icon">🎓</div>
+    <h2>COURSE COMPLETE!</h2>
+    <p>Congratulations — you've completed all 8 modules of the <strong>${appState.track === 'forex' ? 'Forex' : 'Crypto'}</strong> track. You now have the foundational knowledge and discipline framework to begin serious demo trading in that market.</p>
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:24px 0 32px;">
+      <div style="background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:20px 28px;text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--accent);line-height:1;">${getModules().length}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);">MODULES</div>
+      </div>
+      <div style="background:rgba(247,183,49,0.06);border:1px solid rgba(247,183,49,0.2);border-radius:10px;padding:20px 28px;text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--accent2);line-height:1;">${ts().completed.length}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);">COMPLETED</div>
+      </div>
+    </div>
+    <p style="color:var(--accent);font-weight:700;font-size:16px;">What's Next?</p>
+    <p>Begin your minimum 8-week demo trading commitment. Journal every trade. Follow your pre-trade checklist. And remember — your goal is not profits yet. Your goal is <em>disciplined execution</em>.</p>
+    <div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://www.facebook.com/IAmTerrapin" target="_blank" style="padding:10px 20px;background:rgba(0,229,160,0.08);border:1px solid var(--accent);color:var(--accent);text-decoration:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;">FACEBOOK</a>
+      <a href="https://www.tiktok.com/@i_am_terrapin" target="_blank" style="padding:10px 20px;background:rgba(0,229,160,0.08);border:1px solid var(--accent);color:var(--accent);text-decoration:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;">TIKTOK</a>
+      <a href="https://x.com/I_Am_Terrapin" target="_blank" style="padding:10px 20px;background:rgba(0,229,160,0.08);border:1px solid var(--accent);color:var(--accent);text-decoration:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;">TWITTER/X</a>
+      <a href="https://t.me/i_am_terrapin" target="_blank" style="padding:10px 20px;background:rgba(0,229,160,0.08);border:1px solid var(--accent);color:var(--accent);text-decoration:none;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;">TELEGRAM</a>
+    </div>
+    <div style="margin-top:30px;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">"The market is a device for transferring money from the impatient to the patient." — Trade safely.</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+render();
+</script>
+</body>
+</html>
